@@ -5,11 +5,13 @@ dotenv.config();
 
 const dbName = process.env.DB_NAME || "mecware_db";
 const dbUser = process.env.DB_USER || "mecener";
-const dbPass = process.env.DB_PASS;
+const dbPass = process.env.DB_PASSWORD;
+
+console.log(dbName, dbUser, dbPass, process.env.DB_HOST, process.env.DB_PORT);
 
 const sequelize = new Sequelize(dbName, dbUser, dbPass, {
 	host: process.env.DB_HOST,
-	port: 5432,
+	port: Number(process.env.DB_PORT),
 	dialect: "postgres",
 	logging: false,
 	pool: {
