@@ -8,7 +8,7 @@ dotenv.config();
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "secret";
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "secret";
 const JWT_ACCESS_TIME = process.env.JWT_ACCESS_TIME || "15m";
-const JWT_REFRESH_TIME = process.env.JWT_ACCESS_TIME || "14d";
+const JWT_REFRESH_TIME = process.env.JWT_REFRESH_TIME || "14d";
 
 class TokenService {
 	generateTokens(payload: Object) {
