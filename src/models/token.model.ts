@@ -1,14 +1,15 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import sequelize from "../config/database";
-import User from "./user.model";
+import User from "../models/user.model";
+import { RequiredSome } from "../types";
 
 export interface TokenAttributes {
 	id: number;
 	userId: number;
 	refreshToken: string;
 	accessToken?: string;
-	expiresAt: Date;
+	expiresAt?: Date;
 	userAgent?: string;
 	ipAddress?: string;
 	isRevoked: boolean;
@@ -17,9 +18,9 @@ export interface TokenAttributes {
 	updatedAt?: Date;
 }
 
-export interface TokenCreationAttributes extends Optional<TokenAttributes, "id" | "isRevoked"> {}
+export interface UserCreationAttributes extends RequiredSome<TokenAttributes, "userId" | "refreshToken"> {}
 
-class Token extends Model<TokenAttributes, TokenCreationAttributes> implements TokenAttributes {
+class Token extends Model<TokenAttributes, UserCreationAttributes> implements TokenAttributes {
 	public id!: number;
 	public userId!: number;
 	public refreshToken!: string;
@@ -29,16 +30,8 @@ class Token extends Model<TokenAttributes, TokenCreationAttributes> implements T
 	public ipAddress!: string;
 	public isRevoked!: boolean;
 	public revokedAt!: Date;
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-
-	public isExpired(): boolean {
-		return new Date() > this.expiresAt;
-	}
-
-	public isActive(): boolean {
-		return !this.isRevoked && !this.isExpired();
-	}
+	public createdAt!: Date;
+	public updatedAt!: Date;
 }
 
 Token.init(
@@ -68,7 +61,7 @@ Token.init(
 		},
 		expiresAt: {
 			type: DataTypes.DATE,
-			allowNull: false,
+			allowNull: true,
 		},
 		userAgent: {
 			type: DataTypes.STRING(255),
@@ -81,6 +74,7 @@ Token.init(
 		isRevoked: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
+			defaultValue: false,
 		},
 		revokedAt: {
 			type: DataTypes.DATE,

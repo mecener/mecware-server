@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import sequelize from "../config/database";
+import { RequiredSome } from "../types";
 
 export interface UserAttributes {
 	id: number;
@@ -9,14 +10,16 @@ export interface UserAttributes {
 	password: string;
 	firstName?: string;
 	lastName?: string;
-	isActive: boolean;
+	online: boolean;
 	isActivated: boolean;
 	activationLink: string;
 	role: "user" | "admin" | "moderator";
 	lastActivity?: Date;
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, "id" | "isActive" | "role"> {}
+export interface UserCreationAttributes extends RequiredSome<UserAttributes, "email" | "username" | "password"> {}
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
 	public id!: number;
@@ -25,11 +28,11 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
 	public password!: string;
 	public firstName!: string;
 	public lastName!: string;
-	public isActive!: boolean;
+	public online!: boolean;
 	public isActivated!: boolean;
 	public activationLink!: string;
 	public role!: "user" | "admin" | "moderator";
-	public readonly lastActivity!: Date;
+	public lastActivity!: Date;
 
 	public async comparePassword(candidatePassword: string): Promise<boolean> {
 		return bcrypt.compare(candidatePassword, this.password);
@@ -68,13 +71,9 @@ User.init(
 			type: DataTypes.STRING(50),
 			allowNull: true,
 		},
-		isActive: {
+		online: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: true,
-		},
-		role: {
-			type: DataTypes.ENUM("user", "admin", "moderator"),
-			defaultValue: "user",
 		},
 		isActivated: {
 			type: DataTypes.BOOLEAN,
@@ -84,26 +83,14 @@ User.init(
 			type: DataTypes.STRING(255),
 			allowNull: false,
 		},
+		role: {
+			type: DataTypes.ENUM("user", "admin", "moderator"),
+			defaultValue: "user",
+		},
 	},
 	{
 		sequelize,
 		tableName: "users",
-		hooks: {
-			beforeCreate: async (user: User) => {
-				if (user.password) {
-					const salt = await bcrypt.genSalt(10);
-
-					user.password = await bcrypt.hash(user.password, salt);
-				}
-			},
-			beforeUpdate: async (user: User) => {
-				if (user.changed("password")) {
-					const salt = await bcrypt.genSalt(10);
-
-					user.password = await bcrypt.hash(user.password, salt);
-				}
-			},
-		},
 	},
 );
 
