@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import userService from "../services/user.service";
+import userService from "../services/user.service.js";
 import dotenv from "dotenv";
-import { parseTimeToMs } from "../utils/time.util";
+import { parseTimeToMs } from "../utils/time.util.js";
 
 dotenv.config();
 

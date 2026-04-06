@@ -1,7 +1,7 @@
 import jwt, { SignOptions } from "jsonwebtoken";
 import dotenv from "dotenv";
 
-import { Token } from "../models";
+import { Token } from "../models/index.js";
 
 dotenv.config();
 

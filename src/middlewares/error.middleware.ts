@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { ApiError } from "../exceptions/api.error";
+import { ApiError } from "../exceptions/api.error.js";
 
-export function errorMiddleware(error: [], req: Request, res: Response, next: NextFunction) {
+export function errorMiddleware(error: ApiError, req: Request, res: Response, next: NextFunction) {
 	console.log(error);
 
 	if (error instanceof ApiError) {

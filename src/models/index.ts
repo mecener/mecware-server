@@ -1,6 +1,6 @@
-import sequelize from "../config/database";
-import User from "./user.model";
-import Token from "./token.model";
+import sequelize from "../config/database.js";
+import User from "./user.model.js";
+import Token from "./token.model.js";
 
 export { sequelize, User, Token };
 

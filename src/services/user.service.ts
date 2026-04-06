@@ -1,10 +1,10 @@
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-import mailService from "./mail.service";
-import tokenService from "./token.service";
-import { UserDto } from "../dtos/user.dto";
-import { ApiError } from "../exceptions/api.error";
+import mailService from "./mail.service.js";
+import tokenService from "./token.service.js";
+import { UserDto } from "../dtos/user.dto.js";
+import { ApiError } from "../exceptions/api.error.js";
 
 class UserService {
 	async signUp(email: string, username: string, password: string) {

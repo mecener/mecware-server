@@ -2,10 +2,10 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import router from "./router/index";
-import { syncDatabase } from "./models";
-import { errorMiddleware } from "./middlewares/error.middleware";
-import tokenService from "./services/token.service";
+import router from "./router/index.js";
+import { syncDatabase } from "./models/index.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
+import tokenService from "./services/token.service.js";
 
 dotenv.config();
 

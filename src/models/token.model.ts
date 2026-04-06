@@ -1,8 +1,8 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import bcrypt from "bcrypt";
-import sequelize from "../config/database";
-import User from "../models/user.model";
-import { RequiredSome } from "../types";
+import sequelize from "../config/database.js";
+import User from "../models/user.model.js";
+import { RequiredSome } from "../types.js";
 
 export interface TokenAttributes {
 	id: number;
