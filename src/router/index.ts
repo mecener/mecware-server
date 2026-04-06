@@ -8,6 +8,7 @@ router.post("/signUp", userController.signUp);
 router.get("/activate/:link", userController.activateAccount);
 router.post("/signIn", userController.signIn);
 router.post("/signOut", userController.signOut);
+router.post("/checkUser", userController.checkUser);
 router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 

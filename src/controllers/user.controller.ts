@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import userService from "../services/user.service.js";
 import dotenv from "dotenv";
 import { parseTimeToMs } from "../utils/time.util.js";
+import tokenService from "../services/token.service.js";
+import { ApiError } from "../exceptions/api.error.js";
 
 dotenv.config();
 
@@ -49,6 +51,21 @@ class UserController {
 			});
 
 			return res.json(userData);
+		} catch (error: any) {
+			next(error);
+		}
+	}
+	async checkUser(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { token } = req.body;
+
+			const userData = tokenService.validateAccessToken(token);
+
+			if (userData) {
+				res.status(200).json({ status: "ok" });
+			}
+
+			res.json(ApiError.UnauthorizedError());
 		} catch (error: any) {
 			next(error);
 		}
