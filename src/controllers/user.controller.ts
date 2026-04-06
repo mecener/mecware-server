@@ -18,6 +18,7 @@ class UserController {
 				maxAge: parseTimeToMs(JWT_REFRESH_TIME),
 				httpOnly: true,
 				secure: true,
+				sameSite: "none",
 			});
 
 			return res.json(userData);
@@ -46,6 +47,7 @@ class UserController {
 				maxAge: parseTimeToMs(JWT_REFRESH_TIME),
 				httpOnly: true,
 				secure: true,
+				sameSite: "none",
 			});
 
 			return res.json(userData);
@@ -76,6 +78,7 @@ class UserController {
 				maxAge: parseTimeToMs(JWT_REFRESH_TIME),
 				httpOnly: true,
 				secure: true,
+				sameSite: "none",
 			});
 
 			return res.json(userData);
