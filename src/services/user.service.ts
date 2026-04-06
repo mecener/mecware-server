@@ -9,7 +9,7 @@ import { ApiError } from "../exceptions/api.error.js";
 class UserService {
 	async signUp(email: string, username: string, password: string) {
 		const emailCandidate = await User.findOne({ where: { email } });
-		const usernameCandidate = await User.findOne({ where: { email } });
+		const usernameCandidate = await User.findOne({ where: { username } });
 
 		if (emailCandidate) {
 			throw ApiError.BadRequest("Email already exists.");

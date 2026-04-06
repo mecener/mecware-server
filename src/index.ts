@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import router from "./router/index.js";
 import { syncDatabase } from "./models/index.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
-import tokenService from "./services/token.service.js";
 
 dotenv.config();
 
@@ -16,6 +15,13 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/auth", router);
+
+app.get("/health", (req, res) => {
+	res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 app.use(errorMiddleware);
 
 const initDatabase = async () => {
@@ -27,12 +33,6 @@ const initDatabase = async () => {
 		process.exit(1);
 	}
 };
-
-app.use("/auth", router);
-
-app.get("/health", (req, res) => {
-	res.json({ status: "ok", timestamp: new Date().toISOString() });
-});
 
 const bootstrap = async () => {
 	try {
