@@ -1,6 +1,6 @@
 import User from "../models/user.model";
 import bcrypt from "bcrypt";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import mailService from "./mail.service";
 import tokenService from "./token.service";
 import { UserDto } from "../dtos/user.dto";
@@ -20,7 +20,7 @@ class UserService {
 		}
 
 		const hashPassword = await bcrypt.hash(password, 3);
-		const activationLink = uuid.v4();
+		const activationLink = uuidv4();
 		await mailService.sendActivationMail(email, `http://localhost:9932/auth/activate/${activationLink}`);
 
 		const user = await User.create({ email, username, password: hashPassword, activationLink });
