@@ -8,6 +8,7 @@ export interface UserAttributes {
 	email: string;
 	username: string;
 	password: string;
+	avatar?: string;
 	firstName?: string;
 	lastName?: string;
 	online: boolean;
@@ -26,6 +27,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
 	public email!: string;
 	public username!: string;
 	public password!: string;
+	public avatar!: string;
 	public firstName!: string;
 	public lastName!: string;
 	public online!: boolean;
@@ -62,6 +64,10 @@ User.init(
 		password: {
 			type: DataTypes.STRING(255),
 			allowNull: false,
+		},
+		avatar: {
+			type: DataTypes.STRING(500),
+			allowNull: true,
 		},
 		firstName: {
 			type: DataTypes.STRING(50),
