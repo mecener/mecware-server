@@ -12,7 +12,8 @@
 		"resolveJsonModule": true,
 		"noImplicitAny": true,
 		"ignoreDeprecations": "6.0",
-		"types": ["node", "express"]
+		"types": ["node", "express"],
+		"jsx": "react-jsx"
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "dist"]

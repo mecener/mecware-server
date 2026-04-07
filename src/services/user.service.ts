@@ -21,7 +21,7 @@ class UserService {
 
 		const hashPassword = await bcrypt.hash(password, 3);
 		const activationLink = uuidv4();
-		await mailService.sendActivationMail(email, `https://api.mecener.online/auth/activate/${activationLink}`);
+		await mailService.sendActivationMail(email, `https://api.mecener.online/auth/activate/${activationLink}`, username);
 
 		const user = await User.create({ email, username, password: hashPassword, activationLink });
 		const userDto = new UserDto(user);
