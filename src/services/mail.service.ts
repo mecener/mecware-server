@@ -10,10 +10,10 @@ class MailService {
 		await resend.emails.send({
 			from: "onboarding@resend.dev",
 			to,
-			subject: "Активация аккаунта Mecware",
+			subject: "Mecware account activation",
 			html: `
 				<div>
-					<h1>Для активации перейдите по ссылке ниже</h1>
+					<h1>To activate your account, simply follow the link below:</h1>
 					<a href="${link}">${link}</a>
 				</div>
 			`,

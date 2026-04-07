@@ -21,7 +21,7 @@ class UserService {
 
 		const hashPassword = await bcrypt.hash(password, 3);
 		const activationLink = uuidv4();
-		await mailService.sendActivationMail(email, `http://localhost:9932/auth/activate/${activationLink}`);
+		await mailService.sendActivationMail(email, `https://api.mecener.online/auth/activate/${activationLink}`);
 
 		const user = await User.create({ email, username, password: hashPassword, activationLink });
 		const userDto = new UserDto(user);
@@ -38,8 +38,6 @@ class UserService {
 
 	async activateAccount(activationLink: string) {
 		const user = await User.findOne({ where: { activationLink } });
-
-		console.log(activationLink);
 
 		if (!user) {
 			throw ApiError.BadRequest("Incorrect activation link");

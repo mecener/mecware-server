@@ -32,7 +32,7 @@ class UserController {
 
 			await userService.activateAccount(typeof activationLink === "string" ? activationLink : activationLink[0]);
 
-			return res.redirect("https://mecener.online/mecware/project-manager");
+			return res.redirect("https://mecener.online/scenario");
 		} catch (error: any) {
 			next(error);
 		}
