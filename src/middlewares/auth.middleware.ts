@@ -4,19 +4,24 @@ import tokenService from "../services/token.service.js";
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {
 	try {
+		let token = null;
+		let userData = null;
+
 		const authorizationHeader = req.headers.authorization;
 
-		if (!authorizationHeader) {
-			return next(ApiError.UnauthorizedError());
+		if (authorizationHeader) {
+			token = authorizationHeader.split(" ")[1];
+			userData = tokenService.validateAccessToken(token);
 		}
 
-		const accessToken = authorizationHeader.split(" ")[1];
-
-		if (!accessToken) {
-			return next(ApiError.UnauthorizedError());
+		if (!token && req.cookies) {
+			token = req.cookies.refreshToken;
+			userData = tokenService.validateRefreshToken(token);
 		}
 
-		const userData = tokenService.validateAccessToken(accessToken);
+		if (!token) {
+			return next(ApiError.UnauthorizedError());
+		}
 
 		if (!userData) {
 			return next(ApiError.UnauthorizedError());

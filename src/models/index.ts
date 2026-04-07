@@ -1,8 +1,9 @@
 import sequelize from "../config/database.js";
 import User from "./user.model.js";
 import Token from "./token.model.js";
+import Scenario from "./scenario.model.js";
 
-export { sequelize, User, Token };
+export { sequelize, User, Token, Scenario };
 
 export const syncDatabase = async (force: boolean = false) => {
 	try {

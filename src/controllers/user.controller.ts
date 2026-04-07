@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import userService from "../services/user.service.js";
 import dotenv from "dotenv";
 import { parseTimeToMs } from "../utils/time.util.js";
+import { UserDto } from "../dtos/user.dto.js";
 
 dotenv.config();
 
@@ -94,7 +95,7 @@ class UserController {
 		try {
 			const users = await userService.getAllUsers();
 
-			return res.json(users);
+			return res.json(users.map((user) => new UserDto(user)));
 		} catch (error: any) {
 			next(error);
 		}

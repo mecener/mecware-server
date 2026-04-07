@@ -12,7 +12,7 @@ export interface TokenAttributes {
 	expiresAt?: Date;
 	userAgent?: string;
 	ipAddress?: string;
-	isRevoked: boolean;
+	isRevoked?: boolean;
 	revokedAt?: Date;
 	createdAt?: Date;
 	updatedAt?: Date;

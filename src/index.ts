@@ -13,7 +13,14 @@ const PORT = process.env.PORT;
 
 app.use(
 	cors({
-		origin: "http://localhost:5173",
+		origin: [
+			"https://mecener.online",
+			"https://www.mecener.online",
+			"http://mecener.online",
+			"http://www.mecener.online",
+			"http://localhost:5173",
+			"http://localhost:3000",
+		],
 		credentials: true,
 	}),
 );
@@ -21,7 +28,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/auth", router);
+app.use(router);
 
 app.get("/health", (req, res) => {
 	res.json({ status: "ok", timestamp: new Date().toISOString() });
