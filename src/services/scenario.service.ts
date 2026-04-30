@@ -52,8 +52,10 @@ class ScenarioService {
 			content: contributionContent,
 		};
 
-		if (typeof contentFragment !== "string") {
-			contentFragment?.contributions.push(newContribution);
+		if (typeof contentFragment !== "string" && contentFragment !== undefined) {
+			const newContributions = [...contentFragment.contributions, newContribution];
+			contentFragment.contributions.push(newContribution);
+			contentFragment.selectedOption = newContributions.findIndex((value) => value === newContribution);
 			scenario?.changed("content", true);
 			await scenario?.save();
 		}
