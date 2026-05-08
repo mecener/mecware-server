@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ApiError } from "../exceptions/api.error.js";
 import scenarioService from "../services/scenario.service.js";
+import { getIoInstance } from "../socketInstance.js";
 
 class ScenarioController {
 	async createScenario(req: Request, res: Response, next: NextFunction) {
@@ -45,6 +46,10 @@ class ScenarioController {
 			const { scenarioId, dialogueId, lineId, userId, contributionContent } = req.body;
 
 			const data = await scenarioService.addContribution(scenarioId, dialogueId, lineId, userId, contributionContent);
+
+			const io = getIoInstance();
+
+			io.to(`scenario-${scenarioId}`).emit("contribution-added", data);
 
 			res.status(201).json({
 				success: true,

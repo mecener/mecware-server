@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import router from "./router/index.js";
 import { syncDatabase } from "./models/index.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
+import { createSocketServer } from "./socket.js";
+import { createServer } from "node:http";
 
 dotenv.config();
 
@@ -48,9 +50,16 @@ const initDatabase = async () => {
 
 const bootstrap = async () => {
 	try {
-		initDatabase();
+		await initDatabase();
 
-		app.listen(PORT, () => console.log("Server started on port:", PORT));
+		const httpServer = createServer(app);
+
+		const io = createSocketServer(httpServer);
+
+		httpServer.listen(PORT, () => {
+			console.log(`Server started on port: ${PORT}`);
+			console.log(`Socket.IO server is running on port: ${PORT}`);
+		});
 	} catch (error) {
 		console.log(error);
 	}
