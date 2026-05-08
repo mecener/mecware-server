@@ -37,7 +37,14 @@ class ScenarioService {
 		return { my: myScenarios, shared: sharedScenarios };
 	}
 
-	async addContribution(scenarioId: number, dialogueId: number, lineId: number, userId: number, contributionContent: string) {
+	async addContribution(
+		scenarioId: number,
+		dialogueId: number,
+		lineId: number,
+		userId: number,
+		contributionContent: string,
+		authorId: number,
+	) {
 		const scenario = await Scenario.findByPk(scenarioId);
 
 		const dialogue = scenario?.content.dialogues.find((d) => d.id === dialogueId);
@@ -60,7 +67,9 @@ class ScenarioService {
 			await scenario?.save();
 		}
 
-		const scenarios = await Scenario.findAll({ where: { authorId: userId } });
+		const scenarios = await Scenario.findAll({ where: { authorId } });
+
+		console.log("lkasjdlkasjdlkjasd: ", userId);
 
 		return scenarios;
 	}
@@ -71,6 +80,7 @@ class ScenarioService {
 		lineId: number,
 		userId: number,
 		contributionId: number | "initial",
+		authorId: number,
 	) {
 		const scenario = await Scenario.findByPk(scenarioId);
 
@@ -84,7 +94,7 @@ class ScenarioService {
 			await scenario?.save();
 		}
 
-		const scenarios = await Scenario.findAll({ where: { authorId: userId } });
+		const scenarios = await Scenario.findAll({ where: { authorId: authorId } });
 
 		return scenarios;
 	}

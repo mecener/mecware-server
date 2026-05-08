@@ -43,9 +43,9 @@ class ScenarioController {
 
 	async addContribution(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { scenarioId, dialogueId, lineId, userId, contributionContent } = req.body;
+			const { scenarioId, dialogueId, lineId, userId, authorId, contributionContent } = req.body;
 
-			const data = await scenarioService.addContribution(scenarioId, dialogueId, lineId, userId, contributionContent);
+			const data = await scenarioService.addContribution(scenarioId, dialogueId, lineId, userId, contributionContent, authorId);
 
 			const io = getIoInstance();
 
@@ -63,9 +63,20 @@ class ScenarioController {
 
 	async changeSelectedContribution(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { scenarioId, dialogueId, lineId, userId, contributionId } = req.body;
+			const { scenarioId, dialogueId, lineId, userId, contributionId, authorId } = req.body;
 
-			const data = await scenarioService.changeSelectedContribution(scenarioId, dialogueId, lineId, userId, contributionId);
+			const data = await scenarioService.changeSelectedContribution(
+				scenarioId,
+				dialogueId,
+				lineId,
+				userId,
+				contributionId,
+				authorId,
+			);
+
+			const io = getIoInstance();
+
+			io.to(`scenario-${scenarioId}`).emit("contribution-changed", data);
 
 			res.status(201).json({
 				success: true,
